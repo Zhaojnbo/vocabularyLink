@@ -144,8 +144,8 @@
        <widget class="QTextEdit" name="textEditIn">
         <property name="font">
          <font>
-          <family>Agency FB</family>
-          <pointsize>12</pointsize>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
          </font>
         </property>
        </widget>
@@ -183,8 +183,8 @@
        <widget class="QTextEdit" name="textEditOut">
         <property name="font">
          <font>
-          <family>Agency FB</family>
-          <pointsize>12</pointsize>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
          </font>
         </property>
        </widget>

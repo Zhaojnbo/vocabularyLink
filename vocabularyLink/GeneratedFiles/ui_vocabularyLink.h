@@ -144,8 +144,8 @@ public:
         textEditIn = new QTextEdit(centralWidget);
         textEditIn->setObjectName(QString::fromUtf8("textEditIn"));
         QFont font2;
-        font2.setFamily(QString::fromUtf8("Agency FB"));
-        font2.setPointSize(12);
+        font2.setFamily(QString::fromUtf8("Arial"));
+        font2.setPointSize(14);
         textEditIn->setFont(font2);
 
         verticalLayout_2->addWidget(textEditIn);
