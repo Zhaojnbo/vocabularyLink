@@ -5,7 +5,7 @@ void readFile(std::vector <std::string> &words, const std::string &path, bool & 
 	QFile file(path.c_str());
 	file.open(QIODevice::ReadOnly | QIODevice::ReadOnly);
 	if (!file.isOpen()) {
-		qDebug() << "1";
+		//qDebug() << "1";
 		return;
 	}
 	QByteArray t = file.readAll();
@@ -31,6 +31,6 @@ void readFile(std::vector <std::string> &words, const std::string &path, bool & 
 			flag = false;
 		}
 	}
-	qDebug() << "2";
+	//qDebug() << "2";
 	ok = true;
 }
