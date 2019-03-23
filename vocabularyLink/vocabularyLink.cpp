@@ -169,7 +169,45 @@ void vocabularyLink::ontriggeredhelp() {
 }
 
 void vocabularyLink::onclkoutput(){
+	if (!w && !c) {
+		QString dlgTitle = "错误";
+		QString strInfo = QString("必须在单词数最长还是字母最长中选取一个！");
+		QMessageBox::critical(this, dlgTitle, strInfo);
+		ui.toolButton_W->setChecked(true);
+		w = true;
+		ui.toolButton_W->setFocus();
+		return;
+	}
+
 	QString str = ui.textEditIn->toPlainText();
+
+	//判断输入格式是否否正确
+	QByteArray ba = str.toLatin1();
+	int i = 0;
+	int offset = 0;
+	bool setflag = false;
+	QTextCursor & tmpCursor = ui.textEditIn->textCursor();
+	
+	for (i = 0; i < ba.size(); i++) {
+		if (!((ba.at(i) <= 90 && ba.at(i) >= 65) || (ba.at(i) <= 122 && ba.at(i) >= 97) || ba.at(i) == '\n')) {
+			if(!setflag){
+				QString dlgTitle = "错误";
+				QString strInfo = QString("输入单词格式错误，单词只能由大小写字母构成，且只能以换行符分隔！");
+				QMessageBox::critical(this, dlgTitle, strInfo);
+			}
+			setflag = true; offset++;
+			continue;
+		}
+		else if (setflag) break;
+	}
+	if (setflag) { 
+		tmpCursor.setPosition(i-offset, QTextCursor::MoveAnchor);
+		tmpCursor.setPosition(i, QTextCursor::KeepAnchor);
+		ui.textEditIn->setTextCursor(tmpCursor); 
+		ui.textEditIn->setFocus();
+		return; 
+	}
+
 	//ui.textEditOut->setText(str);
 	QList <QString> lst = str.split("\n");
 	std::vector <std::string> words;
