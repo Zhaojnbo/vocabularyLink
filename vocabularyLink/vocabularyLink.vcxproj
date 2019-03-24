@@ -113,9 +113,16 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DebugTime.cpp" />
+    <ClCompile Include="findAllWordList.cpp" />
+    <ClCompile Include="getresult.cpp" />
+    <ClCompile Include="InputParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="readFile.cpp" />
     <ClCompile Include="vocabularyLink.cpp" />
+    <ClCompile Include="WordGraph.cpp" />
+    <ClCompile Include="Wordlist.cpp" />
+    <ClCompile Include="WordMost.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="vocabularyLink.h" />
@@ -127,8 +134,14 @@
     <QtRcc Include="vocabularyLink.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugTime.h" />
+    <ClInclude Include="findAllWordList.h" />
+    <ClInclude Include="getresult.h" />
+    <ClInclude Include="InputParser.h" />
     <ClInclude Include="readFile.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="WordGraph.h" />
+    <ClInclude Include="WordMost.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="vocabularyLink.rc" />

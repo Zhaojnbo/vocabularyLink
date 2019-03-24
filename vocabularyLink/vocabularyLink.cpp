@@ -1,5 +1,6 @@
 #include "vocabularyLink.h"
 #include "readFile.h"
+#include "getresult.h"
 
 vocabularyLink::vocabularyLink(QWidget *parent)
 	: QMainWindow(parent)
@@ -110,12 +111,12 @@ void vocabularyLink::onchkButtonW(){
 			QString strInfo = "最长单词与最长字母限制不能同时被选中！";
 			QMessageBox::warning(this, dlgTitle, strInfo);
 		}
-		else if (n != -1) {
+		/*else if (n != -1) {
 			ui.toolButton_W->setChecked(false);
 			QString dlgTitle = "warning";
 			QString strInfo = "不能指定单词数目来寻找最长单词链！";
 			QMessageBox::warning(this, dlgTitle, strInfo);
-		}
+		}*/
 		else w = true;
 	}
 	else w = false;
@@ -129,12 +130,12 @@ void vocabularyLink::onchkButtonC() {
 			QString strInfo = "最长单词与最长字母限制不能同时被选中！";
 			QMessageBox::warning(this, dlgTitle, strInfo);
 		}
-		else if (n != -1) {
+		/*else if (n != -1) {
 			ui.toolButton_C->setChecked(false);
 			QString dlgTitle = "warning";
 			QString strInfo = "不能指定单词数目来寻找最长单词链！";
 			QMessageBox::warning(this, dlgTitle, strInfo);
-		}
+		}*/
 		else c = true;
 	}
 	else c = false;
@@ -208,18 +209,21 @@ void vocabularyLink::onclkoutput(){
 		return; 
 	}
 
-	//ui.textEditOut->setText(str);
 	QList <QString> lst = str.split("\n");
 	std::vector <std::string> words;
 	for (const QString i : lst) {
-		words.push_back(i.toStdString());
+		if(i != "") words.push_back(i.toStdString());
 		//qDebug() << i;
 	}
-	//qDebug() << "W = " << w;
-	//qDebug() << "C = " << c;
-	//qDebug() << "H = " << h;
-	//qDebug() << "T = " << t;
-	//qDebug() << "N = " << n;
+	
+	QString strresult = QString::fromStdString(getresult(words, w, c ,t ,h ,n));
+	qDebug() << strresult;
+	ui.textEditOut->setText(strresult);
+	qDebug() << "W = " << w;
+	qDebug() << "C = " << c;
+	qDebug() << "H = " << (int)h;
+	qDebug() << "T = " << (int)t;
+	qDebug() << "N = " << n;
 }
 
 
@@ -308,7 +312,7 @@ void vocabularyLink::onchooseAct_Unlimited(){
 }
 
 void vocabularyLink::onchooseAct_setNum(){
-	if (w == false && c == false) {
+	if (w == false || c == false) {
 		QString dlgTitle = "输入整数";
 		QString txtLabel = "设置最长单词链限制";
 		int defaultValue = -1;
