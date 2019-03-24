@@ -114,6 +114,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DebugTime.cpp" />
+    <ClCompile Include="findAllCharList.cpp" />
     <ClCompile Include="findAllWordList.cpp" />
     <ClCompile Include="getresult.cpp" />
     <ClCompile Include="InputParser.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DebugTime.h" />
+    <ClInclude Include="findAllCharList.h" />
     <ClInclude Include="findAllWordList.h" />
     <ClInclude Include="getresult.h" />
     <ClInclude Include="InputParser.h" />

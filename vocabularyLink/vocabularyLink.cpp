@@ -106,10 +106,13 @@ void vocabularyLink::InitButton_N(QToolButton * btn){
 void vocabularyLink::onchkButtonW(){
 	if (ui.toolButton_W->isChecked()) {
 		if (c == true) {
-			ui.toolButton_W->setChecked(false);
-			QString dlgTitle = "warning";
+			ui.toolButton_W->setChecked(true);
+			w = true;
+			/*QString dlgTitle = "warning";
 			QString strInfo = "最长单词与最长字母限制不能同时被选中！";
-			QMessageBox::warning(this, dlgTitle, strInfo);
+			QMessageBox::warning(this, dlgTitle, strInfo);*/
+			ui.toolButton_C->setChecked(false);
+			c = false;
 		}
 		/*else if (n != -1) {
 			ui.toolButton_W->setChecked(false);
@@ -125,10 +128,13 @@ void vocabularyLink::onchkButtonW(){
 void vocabularyLink::onchkButtonC() {
 	if (ui.toolButton_C->isChecked()) {
 		if (w == true) { 
-			ui.toolButton_C->setChecked(false); 
-			QString dlgTitle = "warning";
+			ui.toolButton_C->setChecked(true); 
+			c = true;
+			/*QString dlgTitle = "warning";
 			QString strInfo = "最长单词与最长字母限制不能同时被选中！";
-			QMessageBox::warning(this, dlgTitle, strInfo);
+			QMessageBox::warning(this, dlgTitle, strInfo);*/
+			ui.toolButton_W->setChecked(false);
+			w = false;
 		}
 		/*else if (n != -1) {
 			ui.toolButton_C->setChecked(false);
@@ -209,6 +215,13 @@ void vocabularyLink::onclkoutput(){
 		return; 
 	}
 
+	if (n == -1 && h != -1 && t != -1) {
+		QString dlgTitle = "错误";
+		QString strInfo = QString("若不指定单词长度n，不能同时指定单词链头和单词链尾！");
+		QMessageBox::critical(this, dlgTitle, strInfo);
+		return;
+	}
+
 	QList <QString> lst = str.split("\n");
 	std::vector <std::string> words;
 	for (const QString i : lst) {
@@ -216,7 +229,28 @@ void vocabularyLink::onclkoutput(){
 		//qDebug() << i;
 	}
 	
-	QString strresult = QString::fromStdString(getresult(words, w, c ,t ,h ,n));
+	QString strresult = QString::fromStdString(getresult(words, w, c ,h ,t ,n));
+	if (strresult == "1") {
+		QString dlgTitle = "错误";
+		QString strInfo = QString("Two much input file！");
+		QMessageBox::critical(this, dlgTitle, strInfo);
+		return;
+	}else if (strresult == "2") {
+		QString dlgTitle = "错误";
+		QString strInfo = QString("Not a valid character！");
+		QMessageBox::critical(this, dlgTitle, strInfo);
+		return;
+	}else if (strresult == "3") {
+		QString dlgTitle = "错误";
+		QString strInfo = QString("Word number should be a positive integer！");
+		QMessageBox::critical(this, dlgTitle, strInfo);
+		return;
+	}else if (strresult == "4") {
+		QString dlgTitle = "错误";
+		QString strInfo = QString("No input file！");
+		QMessageBox::critical(this, dlgTitle, strInfo);
+		return;
+	}
 	qDebug() << strresult;
 	ui.textEditOut->setText(strresult);
 	qDebug() << "W = " << w;

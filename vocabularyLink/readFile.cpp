@@ -31,6 +31,8 @@ void readFile(std::vector <std::string> &words, const std::string &path, bool & 
 			flag = false;
 		}
 	}
-	//qDebug() << "2";
+	//ШЅжи
+	std::vector <std::string>::iterator iter = unique(words.begin(), words.end());
+	words.erase(iter, words.end());
 	ok = true;
 }

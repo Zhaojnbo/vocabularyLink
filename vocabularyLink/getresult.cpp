@@ -47,3 +47,8 @@ std::string getresult(std::vector <std::string> &words, bool w, bool c, char h, 
 	free(ret);
 	return str;
 }
+//
+//int main() {
+//	vector<string> v;
+//	cout << getresult(v, false, true, -1, -1, 21) << endl;
+//}

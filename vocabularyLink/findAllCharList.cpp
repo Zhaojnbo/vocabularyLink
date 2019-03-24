@@ -1,4 +1,4 @@
-#include "findAllWordList.h"
+#include "findAllCharList.h"
 #include "DebugInfo.h"
 
 using namespace std;
@@ -42,18 +42,27 @@ static inline void revWriteListToFile(const char *s) {	// s is the first string
 	t_writefile.pause();
 }
 
+static inline string::size_type charnum() {
+	string::size_type sz = 0;
+	for (const auto *p : wordlist) {
+		sz += p->size();
+	}
+	return sz;
+}
+
 static void DLS(const Vertex &v) {
 	for (const auto &arc : v.adjArcs()) {
 		if (arc.isStar() == false) {
-			if (wordlist.size() < depthLimit) {
+			auto sz = charnum() + arc.getName().size();
+			if (sz < depthLimit) {
 				arc.setStar();
 				wordlist.push_back(&arc.getName());
 				DLS(arc.adjVex());
 				wordlist.pop_back();
 				arc.clearStar();
-			} else if (wordlist.size() == depthLimit) {
+			} else if (sz == depthLimit) {
 				writeListToFile(arc.getName().c_str());
-			}
+			} 
 		}
 	}
 }
@@ -61,13 +70,14 @@ static void DLS(const Vertex &v) {
 static void DLSWithEnd(const Vertex &v) {
 	for (const auto &arc : v.adjArcs()) {
 		if (arc.isStar() == false) {
-			if (wordlist.size() < depthLimit) {
+			auto sz = charnum() + arc.getName().size();
+			if (sz < depthLimit) {
 				arc.setStar();
 				wordlist.push_back(&arc.getName());
 				DLSWithEnd(arc.adjVex());
 				wordlist.pop_back();
 				arc.clearStar();
-			} else if (wordlist.size() == depthLimit && arc.adjVexName() == endc) {
+			} else if (sz == depthLimit && arc.adjVexName() == endc) {
 				writeListToFile(arc.getName().c_str());
 			}
 		}
@@ -77,31 +87,32 @@ static void DLSWithEnd(const Vertex &v) {
 static void revDLS(const Vertex &v) {
 	for (const auto &arc : v.revAdjArcsPtr()) {
 		if (arc->isStar() == false) {
-			if (wordlist.size() < depthLimit) {
+			auto sz = charnum() + arc->getName().size();
+			if (sz < depthLimit) {
 				arc->setStar();
 				wordlist.push_back(&arc->getName());
 				revDLS(arc->revAdjVex());
 				wordlist.pop_back();
 				arc->clearStar();
-			} else if (wordlist.size() == depthLimit) {
+			} else if (sz == depthLimit) {
 				revWriteListToFile(arc->getName().c_str());
 			}
 		}
 	}
 }
 
-void findAllWordList(char *ret, const WordGraph &graph, int wordnum, char b, char e) {
+void findAllCharList(char *ret, const WordGraph &graph, int wordnum, char b, char e) {
 
 	DebugTime t;
 	buf = ret;
 	off = num = 0;
+	depthLimit = wordnum;
 	openFile();
-	depthLimit = wordnum - 1;
 	t.printTimeAndRestart("\tOpen File And Preprocessing");
 
 	t_writefile.restartAndPause();
 	if (b == '\0' && e == '\0') {
-		for (const auto &v : graph.getAllVertex()) 
+		for (const auto &v : graph.getAllVertex())
 			DLS(v);
 	} else if (b && e == '\0') {
 		DLS(graph.getVertex(b));
