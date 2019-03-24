@@ -266,7 +266,8 @@ void vocabularyLink::onchkActionOp() {
 	QString dlgTitle = "选择一个文件"; 
 	QString filter = "文本文件(*.txt)"; 
 	QString FileName = QFileDialog::getOpenFileName(this, dlgTitle, curPath, filter);
-	qDebug() << FileName << endl;
+	//qDebug() << FileName << endl;
+	if (FileName == "") return;
 	std::vector <std::string> words;
 	bool ok = false;
 	readFile(words, FileName.toStdString(), ok);
