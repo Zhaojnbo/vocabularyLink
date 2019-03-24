@@ -196,10 +196,10 @@ void vocabularyLink::onclkoutput(){
 	QTextCursor & tmpCursor = ui.textEditIn->textCursor();
 	
 	for (i = 0; i < ba.size(); i++) {
-		if (!((ba.at(i) <= 90 && ba.at(i) >= 65) || (ba.at(i) <= 122 && ba.at(i) >= 97) || ba.at(i) == '\n')) {
+		if (!((ba.at(i) <= 90 && ba.at(i) >= 65) || (ba.at(i) <= 122 && ba.at(i) >= 97) || ba.at(i) == '\n' || ba.at(i) == ';' || ba.at(i) == ',')) {
 			if(!setflag){
 				QString dlgTitle = "错误";
-				QString strInfo = QString("输入单词格式错误，单词只能由大小写字母构成，且只能以换行符分隔！");
+				QString strInfo = QString("输入单词格式错误，单词只能由大小写字母构成，且只能以换行符，分号及半角逗号分隔！");
 				QMessageBox::critical(this, dlgTitle, strInfo);
 			}
 			setflag = true; offset++;
@@ -222,10 +222,10 @@ void vocabularyLink::onclkoutput(){
 		return;
 	}
 
-	QList <QString> lst = str.split("\n");
+	QList <QString> lst = str.split(QRegExp("[,;\n^]"), QString::SkipEmptyParts);
 	std::vector <std::string> words;
 	for (const QString i : lst) {
-		if(i != "") words.push_back(i.toStdString());
+		words.push_back(i.toStdString());
 		//qDebug() << i;
 	}
 	
