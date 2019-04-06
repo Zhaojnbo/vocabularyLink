@@ -170,6 +170,7 @@ void vocabularyLink::ontriggeredhelp() {
 		"H选择是否对单词链的开头字母做限制\n"
 		"T选择是否对单词链的结尾字母做限制\n"
 		"N选择是否对单词链的单词个数做限制\n"
+		"单词请用,或;分割\n"
 				;
 	QMessageBox::information(this, dlgTitle, strInfo,
 		QMessageBox::Ok, QMessageBox::NoButton);
@@ -187,6 +188,12 @@ void vocabularyLink::onclkoutput(){
 	}*/
 
 	QString str = ui.textEditIn->toPlainText();
+
+	if (ui.textEditIn->toPlainText() == "") {
+		QString dlgTitle = "错误";
+		QString strInfo = QString("输入单词为空！");
+		QMessageBox::critical(this, dlgTitle, strInfo);
+	}
 
 	//判断输入格式是否否正确
 	QByteArray ba = str.toLatin1();
@@ -258,6 +265,7 @@ void vocabularyLink::onclkoutput(){
 		QMessageBox::critical(this, dlgTitle, strInfo);
 		return;
 	}else if (strresult == "4") {
+		if (ui.textEditIn->toPlainText() == "") return;
 		QString dlgTitle = "错误";
 		QString strInfo = QString("No input file！");
 		QMessageBox::critical(this, dlgTitle, strInfo);
