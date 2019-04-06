@@ -36,6 +36,8 @@ private:
 	char h;
 	char t;
 	int n;
+	
+	std::vector <std::string> words;
 
 	QAction * Act_T[27];
 	QAction * Act_H[27];

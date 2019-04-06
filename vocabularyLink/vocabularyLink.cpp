@@ -176,7 +176,7 @@ void vocabularyLink::ontriggeredhelp() {
 }
 
 void vocabularyLink::onclkoutput(){
-	if (!w && !c) {
+	/*if (!w && !c) {
 		QString dlgTitle = "错误";
 		QString strInfo = QString("必须在单词数最长还是字母最长中选取一个！");
 		QMessageBox::critical(this, dlgTitle, strInfo);
@@ -184,7 +184,7 @@ void vocabularyLink::onclkoutput(){
 		w = true;
 		ui.toolButton_W->setFocus();
 		return;
-	}
+	}*/
 
 	QString str = ui.textEditIn->toPlainText();
 
@@ -213,6 +213,18 @@ void vocabularyLink::onclkoutput(){
 		ui.textEditIn->setTextCursor(tmpCursor); 
 		ui.textEditIn->setFocus();
 		return; 
+	}
+
+	if (n != -1 && c == true) {
+		int charnum = 0;
+		for (const auto & str: words)
+			charnum += str.length();
+		if (charnum < n) {
+			QString dlgTitle = "错误";
+			QString strInfo = QString("字母数超过已有单词的总字母数！");
+			QMessageBox::critical(this, dlgTitle, strInfo);
+			return;
+		}
 	}
 
 	if (n == -1 && h != -1 && t != -1) {
@@ -268,7 +280,6 @@ void vocabularyLink::onchkActionOp() {
 	QString FileName = QFileDialog::getOpenFileName(this, dlgTitle, curPath, filter);
 	//qDebug() << FileName << endl;
 	if (FileName == "") return;
-	std::vector <std::string> words;
 	bool ok = false;
 	readFile(words, FileName.toStdString(), ok);
 	qDebug() << ok;
